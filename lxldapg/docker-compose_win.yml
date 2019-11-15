@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+
+    lxldapg:
+        image: lxldapg:1.0
+        environment:
+            - DISPLAY=${DISPLAY}
+        volumes:
+            - ${PWD}/ldiffiles:/root/ldiffiles
+        command: bash -c "/root/lxldapg" 

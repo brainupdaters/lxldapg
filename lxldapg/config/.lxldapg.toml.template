@@ -1,0 +1,11 @@
+[Openldap]
+server = "OLhostname"
+port = "636"
+baseDN = "dc=,dc=local"
+OUusers = "ou=People"
+OUgroups = "ou=Groups"
+OUconfig = "ou=Config"
+OUsudoers = "ou=SUDOers"
+DN="cn=,dc=,dc=local"
+PS=""
+DiffFiles="/root/ldiffiles"

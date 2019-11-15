@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+
+    lxldap:
+        image: lxldap:1.0
+        restart: on-failure
+        volumes:
+            - ${PWD}/logs:/home/lxldap/logs
+            - ${PWD}/config/.lxldap.toml:/home/lxldap/.lxldap.toml
+        ports:
+            - "4433:4433"
+
+        command: /home/lxldap/lxldap service start

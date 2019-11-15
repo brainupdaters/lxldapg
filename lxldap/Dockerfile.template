@@ -1,0 +1,48 @@
+# syntax = docker/dockerfile:experimental
+
+FROM golang:1.12-alpine AS builder
+
+# ENV HTTPS_PROXY http://$proxy-username:$proxy-password@$proxy-url:$proxy-port/
+# ENV HTTP_PROXY http://$proxy-username:$proxy-password@$proxy-url:$proxy-port/
+
+RUN apk add --no-cache \
+        git
+RUN mkdir -p /go/src/lxldap/cmd /lxldap/lib
+COPY *.go /go/src/lxldap/
+COPY cmd/* /go/src/lxldap/cmd/
+COPY lib/* /go/src/lxldap/lib/
+COPY config/.gitconfig /root/
+RUN go get -u -v github.com/gorilla/mux
+RUN go get -u -v github.com/mitchellh/go-homedir
+RUN go get -u -v github.com/bradfitz/slice
+RUN go get -u -v github.com/olekukonko/tablewriter
+RUN go get -u -v github.com/rifflock/lfshook
+RUN go get -u -v github.com/sirupsen/logrus
+RUN go get -u -v github.com/spf13/cobra
+RUN go get -u -v github.com/spf13/viper
+RUN go get -u -v gopkg.in/ldap.v3
+RUN cd /go/src/lxldap && go build lxldap.go
+
+FROM alpine:latest
+
+# Create User
+ENV MYUSER=lxldap
+ENV MYUID=500
+ENV MYGID=500
+ENV PATH=${PATH}:/home/${MYUSER}
+
+RUN addgroup -S -g ${MYGID} ${MYUSER} && \
+    adduser -S ${MYUSER} -u ${MYUID} -g ${MYGID} -s /bin/bash -G users
+
+COPY config/.lxldap.toml /home/${MYUSER}/.lxldap.toml
+COPY certs/*.pem /home/${MYUSER}/
+COPY --from=builder /go/src/lxldap /home/${MYUSER}/
+RUN mkdir /home/${MYUSER}/logs
+RUN chown -R lxldap:lxldap /home/${MYUSER}
+
+USER ${MYUSER}
+WORKDIR /home/${MYUSER}
+
+EXPOSE 4433
+
+CMD ["lxldap","service","start"]

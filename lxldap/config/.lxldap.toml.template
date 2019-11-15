@@ -1,0 +1,36 @@
+[openldap]
+server = "OLhostname"
+port = "636"
+baseDN = "dc=example,dc=local"
+OUusers = "ou=People"
+OUgroups = "ou=Groups"
+OUconfig = "ou=Config"
+DN="cn=ldapadmin,dc=example,dc=local"
+PS="secret"
+
+[ad]
+server = "ADhostname"
+port = "636"
+baseDN = "DC=example,DC=com"
+OUusers = "OU=Users,OU=Admin"
+OUgroups = "OU=OpenLDAP,OU=Applications"
+DN = "ldapadmin"
+PS = ""
+
+[apiserver]
+port = "4433"
+cert = "/home/lxldap/ldapsCert.pem"
+key = "/home/lxldap/ldapsKey.pem"
+
+[logging]
+#############################################################################
+# level = trace ("Something very low level.")                               #
+#         debug ("Useful debugging information.")                           #
+#         info  ("Something noteworthy happened!")                          #
+#         warn  ("You should probably take a look at this.")                #
+#         error ("Something failed but I'm not quitting.")                  #
+#         fatal ("Bye.")             --> Calls os.Exit(1) after logging     #
+#         panic ("I'm bailing.")     --> Calls panic() after logging        #
+#############################################################################
+level = "trace"
+file = "/home/lxldap/logs/lxldap.log"

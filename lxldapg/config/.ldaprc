@@ -1,0 +1,4 @@
+TLS_CACERT /root/ldapsCert.pem
+TLS_REQCERT allow
+
+

@@ -1,0 +1,8 @@
+lxldapg/certs/*.pem
+lxldapg/certs/*.crt
+lxldapg/certs/*.key
+lxldapg/config/.lxldapg.toml
+lxldap/certs/*.pem
+lxldap/certs/*.crt
+lxldap/certs/*.key
+lxldap/config/.lxldap.toml
