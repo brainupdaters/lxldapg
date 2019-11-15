@@ -6,18 +6,10 @@ services:
         image: lxldapg:1.0
         environment:
             - DISPLAY=${DISPLAY}
-            - SSH_CONNECTION=${SSH_CONNECTION}
-            - XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}
-            - XMODIFIERS=${XMODIFIERS}
         ipc: host
         volumes:
             - /tmp/.X11-unix:/tmp/.X11-unix
-            - /tmp/.font-unix:/tmp/.font-unix
-            - /tmp/.ICE-unix:/tmp/.ICE-unix
-            - /tmp/.Test-unix:/tmp/.Test-unix
-            - /tmp/.XIM-unix:/tmp/.XIM-unix
-            - /home/admin/.Xauthority:/root/.Xauthority
-            - /run/user/0:/run/user/0
+            - ${HOME}/.Xauthority:/root/.Xauthority
             - /dev/shm:/dev/shm
             - ${PWD}/ldiffiles:/root/ldiffiles
             - ${PWD}/config/.lxldapg.toml:/root/.lxldapg.toml
